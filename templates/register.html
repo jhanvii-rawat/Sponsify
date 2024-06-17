@@ -1,39 +1,91 @@
 
-{% extends 'layout.html'}
+{% extends 'layout.html' %}
+
 
 {% block title %}
-    Register Page
+    Register Page 
+    
 {% endblock %}
+
 
 {% block content %}
 
-    <h1>Register</h1>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h1 class="display-2">Register</h1>
 
     <form action="" class="form">
         <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" name="username">
+            <label for="username" class="'form-label">Username</label>
+            <input type="text" name="username" required class="form-control">
         </div>
+
         <div class="form-group">
-            <label for="name"> Name</label>
-            <input type="text" name="name" id="name">
+            <label for="name" class="'form-label"> Name</label>
+            <input type="text" name="name" id="name" required class="form-control">
         </div>
+
         <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" name="password">
+            <label for="role" class="form-label">Who are you? </label>
+            <select id="role" name="role" required class="form-select">
+                <option value="">Select your role</option>
+                <option value="sponsor">Sponsor</option>
+                <option value="influencer">Influencer</option>
+            </select>
         </div>
+        
+
+
+        <!--  dropdown for niche-->
+
         <div class="form-group">
-            <label for="confirm_password">Confitm Password</label>
-            <input type="password" name="confirm_password">
+            <label for="niche" class="form-label">Niche:</label>
+            <select id="niche" name="niche" onchange="showOtherNiche()" required class="form-select">
+                <option value="">Select a niche</option>
+                <option value="beauty">Beauty</option>
+                <option value="food">Food</option>
+                <option value="machinery">Machinery</option>
+                <option value="technology">Technology</option>
+                <option value="fashion">Fashion</option>
+                <option value="health">Health</option>
+                <option value="travel">Travel</option>
+                <option value="sports">Sports</option>
+                <option value="education">Education</option>
+                <option value="entertainment">Entertainment</option>
+                <option value="finance">Finance</option>
+                <option value="others">Others</option>
+            </select>
+
+        <!--  niche-others -->
+
+            <div class="form-group">
+                <label for="other_niche" id="other_niche_label" style="display:none;" class="'form-label">Please specify:</label>
+                <input type="text" id="other_niche" name="other_niche" style="display:none;" class="form-control">
+            </div>        
+        </div> 
+        
+         <!--  password -->
+        
+        <div class="form-group">
+            <label for="password" class="'form-label">Password</label>
+            <input type="password" name="password" required class="form-control">
         </div>
+
+        <!-- confirm password -->
+
         <div class="form-group">
-            <button type="submit">Register</button>
+            <label for="confirm_password" class="'form-label">Confirm Password</label>
+            <input type="password" name="confirm_password" required class="form-control">
+        </div>
+
+        <!-- Button to register-->
+
+        <div class="form-group">
+            <button type="submit" value="register", class="btn", style="background-color: #e3f2fd;">Register</button>
         </div>  
     </form>
-
+</div>
+</div>
 {% endblock %}
-
-
-
 
 
