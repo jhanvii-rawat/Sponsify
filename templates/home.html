@@ -1,0 +1,128 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <!-- Campaigns Section -->
+    <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <h3>Campaigns</h3>
+            <a href="{{ url_for('search_navbar', filter='campaign') }}" class="btn btn-primary">See All</a>
+        </div>
+        <div class="col-12 d-flex overflow-auto">
+            {% for campaign in campaigns %}
+            <div class="card m-2" style="min-width: 250px;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ campaign.name }}</h5>
+                    <p class="card-text">Sponsor: {{ sponsors.company_name }}</p>
+                    <div class="progress mb-2">
+                        {% set total_days = (campaign.end_date - campaign.start_date).days %}
+                        {% set elapsed_days = (current_date - campaign.start_date).days %}
+
+                        {% if total_days > 0 %}
+                            {% set progress = (elapsed_days / total_days) * 100 %}
+                            {% if progress < 0 %}
+                                {% set progress = 0 %}
+                            {% elif progress > 100 %}
+                                {% set progress = 100 %}
+                            {% endif %}
+                        {% else %}
+                            {% set progress = 100 %}
+                        {% endif %}
+                        <div class="progress-bar" role="progressbar" style="width: {{ progress }}%;" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100">
+                            {{ progress|round }}%
+                        </div>
+                    </div>
+                    <a href="{{ url_for('view_campaign', id=campaign.id) }}" class="btn btn-primary">See More</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Ad Requests Section -->
+    <div class="row mb-4">
+        <div class="col-12 d-flex justify-content-between align-items-center">
+            <h3>Ad Requests</h3>
+            <a href="{{ url_for('search_navbar', filter='ad_request') }}" class="btn btn-primary">See All</a>
+        </div>
+        <div class="col-12 d-flex overflow-auto">
+            {% for ad_request in ad_requests %}
+            <div class="card m-2" style="min-width: 250px;">
+                <div class="card-body">
+                    <p class="card-text">{{ ad_request.messages }}</p>
+                    {% if user.role == 'influencer' %}
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#interestModal{{ ad_request.id }}">Interested</button>
+                    {% elif user.role == 'sponsor' %}
+                        <a href="{{ url_for('view_ad_request', id=ad_request.id) }}" class="btn btn-primary">View</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="interestModal{{ ad_request.id }}" tabindex="-1" aria-labelledby="interestModalLabel{{ ad_request.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="interestModalLabel{{ ad_request.id }}">Express Interest</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Message:</strong> {{ ad_request.messages }}</p>
+                            <p><strong>Requirements:</strong> {{ ad_request.requirements }}</p>
+                            <p><strong>Payment Amount:</strong> {{ ad_request.payment_amount }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <form method="post" action="{{ url_for('send_interest', id=ad_request.id) }}">
+                                <button type="submit" class="btn btn-primary">Send Interest</button>
+                            </form>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Top Influencers Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3>Top Influencers</h3>
+        </div>
+        <div class="col-12 d-flex overflow-auto">
+            {% for influencer in top_influencers %}
+            <div class="card m-2" style="min-width: 250px;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ influencer.name }} (@{{ influencer.username }})</h5>
+                    <p class="card-text">{{ influencer.followers }} followers</p>
+                    <a href="{{ url_for('view_influencer_profile', id=influencer.id) }}" class="btn btn-primary">See Profile</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Top Sponsors Section -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3>Top Sponsors</h3>
+        </div>
+        <div class="col-12 d-flex overflow-auto">
+            {% for sponsor in top_sponsors %}
+            <div class="card m-2" style="min-width: 250px;">
+                <div class="card-body">
+                    <h5 class="card-title">{{ sponsor.company_name }}</h5>
+                    <p class="card-text">{{ sponsor.industry }}</p>
+                    <a href="{{ url_for('view_sponsor_profile', id=sponsor.id) }}" class="btn btn-primary">See Profile</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

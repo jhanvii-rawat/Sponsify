@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Generate Ad Request for "{{ campaign.name }}"
+{% endblock %}
+
+{% block content %}
+<h1 class="display-4">Generate Ad Request for "{{ campaign.name }}"</h1>
+
+<form action="{{ url_for('generate_ad_request', id=campaign.id) }}" method="post">
+    <div class="form-group">
+        <label for="privacy">Privacy:</label>
+        <div>
+            <input type="radio" id="private" name="privacy" value="Private" {% if privacy == 'Private' %}checked{% endif %}>
+            <label for="private">Private</label>
+        </div>
+        <div>
+            <input type="radio" id="public" name="privacy" value="Public" {% if privacy == 'Public' %}checked{% endif %}>
+            <label for="public">Public</label>
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="message" class="form-label">Message</label>
+        <textarea class="form-control" id="message" name="message" rows="3" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="requirements" class="form-label">Requirements</label>
+        <textarea class="form-control" id="requirements" name="requirements" rows="3" required></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="payment" class="form-label">Payment (in ₹)</label>
+        <input type="number" class="form-control" id="payment" name="payment"  min = '0' required>
+    </div>
+    <button type="submit" class="btn btn-dark">Generate Ad Request</button>
+</form>
+{% endblock %}

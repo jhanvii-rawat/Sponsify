@@ -1,0 +1,80 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Search 
+{% endblock %}
+
+{% block content %}
+<h1 class="display-4">Search </h1>
+
+<form method="get" action="{{ url_for('search_navbar') }}">
+    <div class="form-group">
+        <input type="text" name="keyword" class="form-control" placeholder="Search..." value="{{ keyword }}"><br>
+    </div>
+    <div class="form-group">
+        <input type="text" name="niche" class="form-control" placeholder="Category" value="{{ niche }}"><br>
+    </div>
+    <div class="form-group">
+        <select name="filter" class="form-control">
+            <option value="" {% if filter_type == '' %}selected{% endif %}>All</option>
+            <option value="company" {% if filter_type == 'company' %}selected{% endif %}>Companies</option>
+            <option value="influencer" {% if filter_type == 'influencer' %}selected{% endif %}>Influencers</option>
+            <option value="campaign" {% if filter_type == 'campaign' %}selected{% endif %}>Campaigns</option>
+            <option value="ad_request" {% if filter_type == 'ad_request' %}selected{% endif %}>Ad Requests</option>
+        </select><br>
+    </div>
+    <button type="submit" class="btn btn-primary">Search</button>
+</form>
+
+<h2 class="mt-4">Companies</h2>
+{% if companies %}
+    <ul class="list-group">
+        {% for company in companies %}
+        <li class="list-group-item">
+            <a href="{{ url_for('view_sponsor_profile', id=company.id) }}">{{ company.company_name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No companies found.</p>
+{% endif %}
+
+<h2 class="mt-4">Influencers</h2>
+{% if influencers %}
+    <ul class="list-group">
+        {% for influencer in influencers %}
+        <li class="list-group-item">
+            <a href="{{ url_for('view_influencer_profile', id=influencer.id) }}">{{ influencer.username }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No influencers found.</p>
+{% endif %}
+
+<h2 class="mt-4">Campaigns</h2>
+{% if campaigns %}
+    <ul class="list-group">
+        {% for campaign in campaigns %}
+        <li class="list-group-item">
+            <a href="{{ url_for('view_campaign', id=campaign.id) }}">{{ campaign.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No campaigns found.</p>
+{% endif %}
+
+<h2 class="mt-4">Public Ad Requests</h2>
+{% if ad_requests %}
+    <ul class="list-group">
+        {% for ad_request in ad_requests %}
+        <li class="list-group-item">
+            <a href="{{ url_for('view_ad_request', id=ad_request.id) }}">{{ ad_request.messages }}</a>
+        </li><br><br>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No public ad requests found.</p>
+{% endif %}
+{% endblock %}

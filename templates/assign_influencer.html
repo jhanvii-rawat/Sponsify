@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Assign Influencer to Ad Request
+{% endblock %}
+
+{% block content %}
+<h1 class="display-4">Assign Influencer to Ad Request</h1>
+
+<form method="get" action="{{ url_for('assign_influencer', id=ad_request.id) }}">
+    <div class="form-group">
+        <input type="text" name="search" class="form-control" placeholder="Search Influencers" value="{{ request.args.get('search', '') }}"><br>
+    </div>
+    <div class="form-group">
+        <input type="text" name="niche" class="form-control" placeholder="Niche" value="{{ request.args.get('niche', '') }}"><br>
+    </div>
+    <button type="submit" class="btn btn-primary">Find</button><br>
+</form>
+
+{% if influencers %}
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Username</th>
+            <th>Niche</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for influencer in influencers %}
+        <tr>
+            <td>{{ influencer.id }}</td>
+            <td>{{ influencer.username }}</td>
+            <td>{{ influencer.niche }}</td>
+            <td>
+                <form method="post" action="{{ url_for('assign_influencer', id=ad_request.id) }}">
+                    <input type="hidden" name="influencer_id" value="{{ influencer.id }}">
+                    <button type="submit" class="btn btn-success">Assign</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
+{% endblock %}

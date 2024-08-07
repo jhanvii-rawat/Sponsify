@@ -1,0 +1,53 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Received Ad Requests
+{% endblock %}
+
+{% block content %}
+
+<br>
+<nav aria-label="...">
+    <ul class="pagination justify-content-center">
+        <li class="page-item"><a class="page-link active" href="{{ url_for('received_ad_requests') }}">Received Ad Requests</a></li>
+        <li class="page-item"><a class="page-link" href="{{ url_for('my_requests') }}">Requests Sent</a></li>
+    </ul>
+</nav>
+<h3 class="display-3 text-center">
+    Received Ad Requests
+</h3><br>
+
+<div class="container">
+    <div class="row">
+        {% for ad_request in ad_requests %}
+        <div class="col-12 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <p><strong>ID:</strong><br>{{ ad_request.id }}</p>
+                            <p><strong>Status:</strong><br>{{ ad_request.status }}</p>
+                            <p><strong>Payment:</strong><br>{{ ad_request.payment_amount }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p><strong>Message:</strong></p>
+                            <p>{{ ad_request.messages }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p><strong>Requirements:</strong></p>
+                            <p>{{ ad_request.requirements }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p><strong>Sponsor:</strong><br>{{ ad_request.sponsor.company_name }}</p>
+                            <p><strong>Campaign:</strong><br>{{ ad_request.campaign.name }}</p>
+                            <a href="{{ url_for('received_ad_request', id=ad_request.id) }}" class="btn btn-primary btn-block mt-2">View</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

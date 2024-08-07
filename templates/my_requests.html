@@ -1,0 +1,66 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    My Ad Requests
+{% endblock %}
+
+{% block content %}
+<br>
+<nav aria-label="...">
+    <ul class="pagination justify-content-center">
+        <li class="page-item"><a class="page-link" href="{{ url_for('received_ad_requests') }}">Received Ad Requests</a></li>
+        <li class="page-item active"><a class="page-link" href="{{ url_for('my_requests') }}">Requests Sent</a></li>
+    </ul>
+</nav>
+
+<h3 class="display-3">Requests Sent</h3><br>
+
+<div class="container">
+    <div class="row">
+        {% for ad_request in requests_sent.items %}
+        <div class="col-12 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <p><strong>ID</strong><br>{{ ad_request.id }}</p>
+                            <p><strong>Status</strong><br>{{ ad_request.status }}</p>
+                            <p><strong>Payment</strong><br>{{ ad_request.payment_amount }}</p>
+                            <p><strong>Company</strong><br>{{ ad_request.sponsor.company_name }}</p>
+                        </div>
+                        <div class="col-md-5">
+                            <p><strong>Message</strong></p>
+                            <p>{{ ad_request.messages }}</p>
+                        </div>
+                        <div class="col-md-5">
+                            <p><strong>Requirements</strong></p>
+                            <p>{{ ad_request.requirements }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<nav aria-label="Page navigation">
+    <ul class="pagination justify-content-center">
+        {% if requests_sent.has_prev %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('my_requests', page=requests_sent.prev_num) }}">Previous</a>
+        </li>
+        {% endif %}
+        {% for page_num in requests_sent.iter_pages() %}
+        <li class="page-item {% if page_num == requests_sent.page %}active{% endif %}">
+            <a class="page-link" href="{{ url_for('my_requests', page=page_num) }}">{{ page_num }}</a>
+        </li>
+        {% endfor %}
+        {% if requests_sent.has_next %}
+        <li class="page-item">
+            <a class="page-link" href="{{ url_for('my_requests', page=requests_sent.next_num) }}">Next</a>
+        </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endblock %}

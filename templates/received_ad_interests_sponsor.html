@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Received Ad Requests
+{% endblock %}
+
+{% block content %}
+<br>
+<nav aria-label="...">
+    <ul class="pagination justify-content-center">
+        <li class="page-item"><a class="page-link" href="{{ url_for('campaigns_sponsor') }}">All Campaigns</a></li>
+        <li class="page-item"><a class="page-link" href="{{ url_for('all_ad_request') }}">All Private Ad Requests Sent</a></li>
+        <li class="page-item"><a class="page-link" href="{{ url_for('all_ad_request_public') }}">All Public Ad Requests Sent</a></li>
+        <li class="page-item active"><a class="page-link" href="{{ url_for('received_ad_interests_sponsor') }}">Received Requests</a></li>
+    </ul>
+</nav>
+
+<h3 class="display-3">Received Ad Requests</h3><br>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Campaign ID</th>
+            <th>Campaign Name</th>
+            <th>Sponsor Name</th>
+            <th>Ad Message</th>
+            <th>Ad Requirements</th>
+            <th>Ad Status</th>
+            <th>Ad Payment</th>
+            <th>Influencer Name</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ad in ad_interests %}
+        <tr>
+            <td>{{ ad.campaign_id }}</td>
+            <td>{{ ad.campaign_name }}</td>
+            <td>{{ ad.sponsor_name }}</td>
+            <td>{{ ad.ad_message }}</td>
+            <td>{{ ad.ad_requirements }}</td>
+            <td>{{ ad.ad_status }}</td>
+            <td>{{ ad.ad_payment }}</td>
+            <td>{{ ad.influencer_name }}</td>
+            <td>
+                <form action="{{ url_for('accept_ad_interest', id=ad.interest_id) }}" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-outline-success">Accept</button>
+                </form>
+                <form action="{{ url_for('reject_ad_interest', id=ad.interest_id) }}" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-outline-danger">Reject</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

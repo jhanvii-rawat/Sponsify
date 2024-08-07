@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Ad Request Details
+{% endblock %}
+
+{% block content %}
+<h1 class="display-4">Ad Request Details</h1>
+
+<div class="card">
+    <div class="card-body">
+        <p><strong>ID:</strong> {{ ad_request.id }}</p>
+        <p><strong>Status:</strong> {{ ad_request.status }}</p>
+        <p><strong>Message:</strong> {{ ad_request.messages }}</p>
+        <p><strong>Requirements:</strong> {{ ad_request.requirements }}</p>
+        <p><strong>Payment:</strong> {{ ad_request.payment_amount }}</p>
+        <p><strong>Sponsor:</strong> {{ ad_request.sponsor.company_name }}</p>
+        <p><strong>Campaign:</strong> {{ ad_request.campaign.name }}</p>
+
+        <form method="post">
+            <button type="submit" name="action" value="accept" class="btn btn-outline-success" {% if ad_request.status != 'Pending' %}disabled{% endif %}>Accept</button>
+            <button type="submit" name="action" value="decline" class="btn btn-outline-danger" {% if ad_request.status != 'Pending' %}disabled{% endif %}>Decline</button>
+            <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal" data-bs-target="#negotiateModal" {% if ad_request.status != 'Pending' %}disabled{% endif %}>Negotiate</button>
+        </form>
+    </div>
+</div>
+
+<!-- Negotiate Modal -->
+<div class="modal fade" id="negotiateModal" tabindex="-1" role="dialog" aria-labelledby="negotiateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="negotiateModalLabel">Negotiate Payment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="post">
+                    <div class="form-group">
+                        <label for="new_payment_amount">New Payment Amount:</label>
+                        <input type="number" class="form-control" name="new_payment_amount" value="{{ ad_request.payment_amount }}" required>
+                    </div>
+                    <button type="submit" name="action" value="negotiate" class="btn btn-outline-warning">Submit Negotiation</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    User Profile
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="display-4">{{ user.name }}</h1>
+    <p><strong>@ {{ user.username }}</strong></p>
+    <p><strong>Role:</strong> {{ user.role }}</p>
+    <p><strong>Flag Status:</strong> {{ 'Flagged' if user.flagged else 'Not Flagged' }}</p>
+
+    {% if user.role == 'influencer' %}
+        <p><strong>Category:</strong> {{ influencer.niche }}</p>
+        <p><strong>Followers:</strong> {{ influencer.followers }}</p>
+        
+        <h2 class="mt-4">Ad Requests</h2>
+        {% if influencer.ad_requests %}
+            <ul class="list-group">
+                {% for ad_request in influencer.ad_requests %}
+                <li class="list-group-item">
+                    <a href="{{ url_for('view_ad_request', id=ad_request.id) }}">{{ ad_request.messages }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No ad requests found for this influencer.</p>
+        {% endif %}
+
+    {% elif user.role == 'sponsor' %}
+        <p><strong>Company Name:</strong> {{ sponsor.company_name }}</p>
+        <p><strong>Industry:</strong> {{ sponsor.industry }}</p>
+        
+        <h2 class="mt-4">Campaigns</h2>
+        {% if sponsor.campaigns %}
+            <ul class="list-group">
+                {% for campaign in sponsor.campaigns %}
+                <li class="list-group-item">
+                    <a href="{{ url_for('view_campaign', id=campaign.id) }}">{{ campaign.name }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No campaigns found for this sponsor.</p>
+        {% endif %}
+    {% endif %}
+</div>
+{% endblock %}

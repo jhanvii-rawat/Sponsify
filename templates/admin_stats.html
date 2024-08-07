@@ -1,0 +1,160 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Admin Statistics
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1> Statistics</h1><br>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h3>Average Budget Allotted in Campaigns this Month</h2>
+            <p>₹{{ avg_budget_this_month or 0 | round(2) }}</p><br>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Average Payment to Influencers this Month</h3>
+            <p>₹{{ avg_payment_to_influencers or 0 | round(2) }}</p><br>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h3>Distribution of Influencers and Sponsors</h3>
+            <canvas id="influencerSponsorChart"></canvas><br>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Influencers by Niche</h3>
+            <canvas id="nicheChart"></canvas><br>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <h3>Sponsors by Industry</h3>
+            <canvas id="industryChart"></canvas><br>
+        </div>
+
+        <div class="col-md-6">
+            <h3>Campaigns by Year and Month</h3>
+            <canvas id="campaignsChart"></canvas><br><br>
+        </div>
+    </div>
+
+   
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Influencer and Sponsor Distribution Chart
+    var ctx1 = document.getElementById('influencerSponsorChart').getContext('2d');
+    new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: ['Influencers', 'Sponsors'],
+            datasets: [{
+                label: 'Count',
+                data: [{{ influencer_count }}, {{ sponsor_count }}],
+                backgroundColor: ['#36a2eb', '#ff6384']
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+
+    // Influencers by Niche Chart
+    var nicheLabels = {{ niches | map(attribute=0) | list | tojson }};
+    var nicheData = {{ niches | map(attribute=1) | list | tojson }};
+    var ctx2 = document.getElementById('nicheChart').getContext('2d');
+    new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: nicheLabels,
+            datasets: [{
+                label: 'Influencers by Niche',
+                data: nicheData,
+                backgroundColor: '#36a2eb'
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+
+    // Sponsors by Industry Chart
+    var industryLabels = {{ industries | map(attribute=0) | list | tojson }};
+    var industryData = {{ industries | map(attribute=1) | list | tojson }};
+    var ctx3 = document.getElementById('industryChart').getContext('2d');
+    new Chart(ctx3, {
+        type: 'bar',
+        data: {
+            labels: industryLabels,
+            datasets: [{
+                label: 'Sponsors by Industry',
+                data: industryData,
+                backgroundColor: '#ff6384'
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+
+    // Campaigns by Year and Month Chart
+    var campaignsLabels = {{ campaigns_by_year_month | map(attribute='year') | list | tojson }}.map(function(year, index) {
+        return year + '-' + ('0' + {{ campaigns_by_year_month | map(attribute='month') | list | tojson }}[index]).slice(-2);
+    });
+    var campaignsData = {{ campaigns_by_year_month | map(attribute='count') | list | tojson }};
+    var ctx4 = document.getElementById('campaignsChart').getContext('2d');
+    new Chart(ctx4, {
+        type: 'line',
+        data: {
+            labels: campaignsLabels,
+            datasets: [{
+                label: 'Campaigns by Year and Month',
+                data: campaignsData,
+                backgroundColor: '#36a2eb',
+                borderColor: '#36a2eb',
+                fill: false
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    View Ad Request
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header">
+            <h2 class="display-4">Ad Request Details</h2>
+        </div>
+        <div class="card-body">
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>ID:</strong></div>
+                <div class="col-md-8">{{ ad_request.id }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Campaign Name:</strong></div>
+                <div class="col-md-8">{{ campaign.name }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Sponsor Name:</strong></div>
+                <div class="col-md-8">{{ sponsor.company_name }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Influencer Name:</strong></div>
+                <div class="col-md-8">{{ influencer.name if influencer else 'Not Assigned' }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Message:</strong></div>
+                <div class="col-md-8">{{ ad_request.messages }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Requirements:</strong></div>
+                <div class="col-md-8">{{ ad_request.requirements }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Payment Amount:</strong></div>
+                <div class="col-md-8">{{ ad_request.payment_amount }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Privacy:</strong></div>
+                <div class="col-md-8">{{ ad_request.privacy }}</div>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4"><strong>Status:</strong></div>
+                <div class="col-md-8">{{ ad_request.status }}</div>
+            </div>
+        </div>
+        <div class="card-footer text-end">
+            <a href="{{ url_for('admin_ad_request') }}" class="btn btn-dark">Back to Ad Requests</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

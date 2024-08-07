@@ -1,0 +1,61 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    profile Settings
+{% endblock %}
+
+
+{% block content %}
+<br>
+<h2 class="diplay-2">
+    Hello <span class="text-muted">@{{user.username}}</span>
+
+</h2>
+
+
+
+
+<!--  to cahnge password and username and name  -->
+
+<div class="row justify-content-left">
+    <div class="col-md-6">
+    <form action="" method="post" class="form">
+        <br>
+        <div class="form-group">
+            <label for="username" class="form-label"> Username: </label>
+            <input type="text" name="username" id="username" class="form-control" value="{{user.username}}">
+        </div>
+
+        <div class="form-group">
+            <label for="name" class="form-label"> Name: </label>
+            <input type="text" name="name" id="name" class="form-control" value="{{user.name}}">
+        </div>
+
+        <div class="form-group">
+            <label for="name" class="form-label"> industry: </label>
+            <input type="text" name="industry" id="industry" class="form-control" value="{{sponsor.industry}}">
+        </div>
+
+        <div class="form-group">
+            <label for="currentpassword" class="form-label">current Password: </label>
+            <input type="password" name="currentpassword" id="currentpassword" class="form-control" >
+        </div>
+
+        <div class="form-group">
+            <label for="password" class="form-label">New Password: </label>
+            <input type="password" name="password" id="password" class="form-control">
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-outline-dark"> Update </button>
+        </div>
+    </form>
+    </div>
+
+</div>
+    
+{% endblock %}
+
+

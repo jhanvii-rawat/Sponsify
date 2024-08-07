@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Influencer Profile
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row">
+        <!-- Influencer Details Card -->
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="card-title">Your Details</h5>
+                </div>
+                <div class="card-body">
+                    <p><strong>Username:</strong> {{ user.username }}</p>
+                    <p><strong>Name:</strong> {{ user.name }}</p>
+                    <p><strong>Niche:</strong> {{ influencer.niche }}</p>
+                    <p><strong>Followers:</strong> {{ influencer.followers }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payments Received Card -->
+        <div class="col-md-8 mb-4">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h5 class="card-title">Payments Received (This Month)</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Ad Request ID</th>
+                                <th>Campaign Name</th>
+                                <th>Payment Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for ad_request in ad_requests %}
+                                <tr>
+                                    <td>{{ ad_request.id }}</td>
+                                    <td>{{ ad_request.campaign.name }}</td>
+                                    <td>₹{{ ad_request.payment_amount }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

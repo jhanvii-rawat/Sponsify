@@ -1,19 +1,114 @@
-<nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
-    <div class="container">
-      <a class="navbar-brand" href="{{url_for('index')}}">Sponsify</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+<nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark">
+  <div class="container-fluid">
+      <a class="navbar-brand me-auto" href="{{ url_for('index') }}">Sponsify</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{{url_for('login')}}">Login</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{url_for('register')}}">Register</a>
-          </li>
-          
-        </ul>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+          <ul class="navbar-nav">
+              {% if 'user_id' in session %}
+                  {% set current_user = get_current_user() %}
+                  {% if current_user and current_user.role == 'admin' %}
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{ url_for('search_navbar') }}">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            Search</a>
+                    </li>
+                      <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="{{ url_for('admin_dashboard') }}">
+                              <i class="fa fa-tachometer" aria-hidden="true"></i>
+                              Dashboard</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="{{ url_for('admin_stats') }}">
+                              <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                              Stats</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="{{ url_for('profile_settings_admin') }}">
+                              <i class="fa fa-cogs" aria-hidden="true"></i>
+                              Profile Settings</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="{{ url_for('logout') }}">
+                              <i class="fa fa-sign-out" aria-hidden="true"></i>
+                              Logout</a>
+                      </li>
+                  {% elif current_user and current_user.role == 'sponsor' %}
+                      <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="{{ url_for('home') }}">
+                              <i class="fa fa-home" aria-hidden="true"></i>
+                              Home</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{ url_for('search_navbar') }}">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            Search</a>
+                    </li>
+                      <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="{{ url_for('campaigns_sponsor') }}">
+                              <i class="fa fa-globe" aria-hidden="true"></i>
+                              My Campaigns</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="{{ url_for('sponsor_profile') }}">
+                              <i class="fa fa-user" aria-hidden="true"></i>
+                              Profile</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="{{ url_for('profile_settings_sponsor') }}">
+                              <i class="fa fa-cogs" aria-hidden="true"></i>
+                              Profile Settings</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="{{ url_for('logout') }}">
+                              <i class="fa fa-sign-out" aria-hidden="true"></i>
+                              Logout</a>
+                      </li>
+                  {% else %}
+                      <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="{{ url_for('home') }}">
+                              <i class="fa fa-home" aria-hidden="true"></i>
+                              Home</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{{ url_for('search_navbar') }}">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            Search</a>
+                    </li>
+                      <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="{{ url_for('received_ad_requests') }}">
+                              <i class="fa fa-globe" aria-hidden="true"></i>
+                              Ad Requests</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="{{ url_for('influencer_profile') }}">
+                              <i class="fa fa-user" aria-hidden="true"></i>
+                              Profile</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="{{ url_for('profile_settings') }}">
+                              <i class="fa fa-cogs" aria-hidden="true"></i>
+                              Profile Settings</a>
+                      </li>
+                      <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="{{ url_for('logout') }}">
+                              <i class="fa fa-sign-out" aria-hidden="true"></i>
+                              Logout</a>
+                      </li>
+                  {% endif %}
+              {% else %}
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="{{ url_for('login') }}">Login</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="{{ url_for('register_influencer') }}">Register as Influencer</a>
+                  </li>
+                  <li class="nav-item">
+                      <a class="nav-link active" aria-current="page" href="{{ url_for('register_sponsor') }}">Register as Sponsor</a>
+                  </li>
+              {% endif %}
+          </ul>
       </div>
-    </div>
-  </nav>
+  </div>
+</nav>

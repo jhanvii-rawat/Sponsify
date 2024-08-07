@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    View Ad Request
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h3 class="display-3">Ad Request Details</h3><br>
+    <p><strong>ID:</strong> {{ ad_request.id }}</p>
+    <p><strong>Payment:</strong> {{ ad_request.payment_amount }}</p>
+    <p><strong>Message:</strong> {{ ad_request.messages }}</p>
+    <p><strong>Requirements:</strong> {{ ad_request.requirements }}</p>
+    <p><strong>Influencer:</strong> {{ ad_request.influencer.name if ad_request.influencer else 'Not Assigned' }}</p>
+    <p><strong>Company:</strong> {{ ad_request.sponsor.company_name }}</p>
+
+    {% if user.role == 'influencer' %}
+    <form method="post" action="{{ url_for('send_interest', id=ad_request.id) }}">
+        <button type="submit" class="btn btn-primary">Express Interest</button>
+    </form>
+    {% endif %}
+</div>
+{% endblock %}

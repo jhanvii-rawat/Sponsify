@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Sponsor Profile
+{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="display-4">{{ sponsor.company_name }}</h1>
+    <p><strong>@{{ sponsor.username }}</strong></p>
+    <p><strong>Industry:</strong> {{ sponsor.industry }}</p>
+
+    <h2 class="mt-4">Campaigns</h2>
+    {% if campaigns %}
+        <div class="row">
+            {% for campaign in campaigns %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ campaign.name }}</h5>
+                        <p class="card-text">{{ campaign.description }}</p>
+                        <a href="{{ url_for('view_campaign', id=campaign.id) }}" class="btn btn-primary">View Campaign</a>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Start Date: {{ campaign.start_date }}</small><br>
+                        <small class="text-muted">End Date: {{ campaign.end_date }}</small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No campaigns found for this sponsor.</p>
+    {% endif %}
+
+    <h2 class="mt-4">Public Ad Requests</h2>
+    {% if public_ad_requests %}
+        <div class="row">
+            {% for ad_request in public_ad_requests %}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">Campaign: {{ ad_request.campaign.name }}</h5>
+                        <p class="card-text">{{ ad_request.requirements }}</p>
+                        <a href="{{ url_for('view_ad_request', id=ad_request.id) }}" class="btn btn-primary">View Ad Request</a>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Payment Amount: {{ ad_request.payment_amount }}</small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No public ad requests found for this sponsor.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--<meta http-equiv="refresh" content="60">-->
     
     <title>
         {% block title %}
@@ -15,29 +16,38 @@
         
     {% endblock %}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    {% include 'navbar.html' %}
-<div class="container">
-  {% block content %}
+
+    {% include 'navbar.html' with context %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class=flashes>
+                {% for message in messages %}
+                    
+                    <div class="alert alert-danger" role="alert">
+                       {{message}}
+                    </div>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+   
     
-  {% endblock %}  
-</div>
-  {% block script %}  <!--making snippet of jinja that will inclue navigation(navbar.html) bar -->
-  <script>
-    function showOtherNiche() {
-        var nicheSelect = document.getElementById("niche");
-        var otherNicheInput = document.getElementById("other_niche");
-        var otherNicheLabel = document.getElementById("other_niche_label");
-        if (nicheSelect.value === "others") {
-            otherNicheInput.style.display = "block";
-            otherNicheLabel.style.display = "block";
-        } else {
-            otherNicheInput.style.display = "none";
-            otherNicheLabel.style.display = "none";
-        }
-    }
-</script>
+    <div class="container">
+        
+        {% block content %}
+                
+        {% endblock %}  
+    </div>
+
+    
+  
+  {% block script %}  
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+LVikVRu2bPeRn0H+8Wf5RkP0p1Kk" crossorigin="anonymous"></script>
+  
   {% endblock %}
 </body>
 </html>

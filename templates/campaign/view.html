@@ -1,0 +1,95 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    View Campaign
+{% endblock %}
+
+{% block content %}
+<h1 class="display-4">{{ campaign.name }}</h1>
+<p><strong>Description:</strong> {{ campaign.description }}</p>
+<p><strong>Start Date:</strong> {{ campaign.start_date.strftime('%d/%m/%Y') }}</p>
+<p><strong>End Date:</strong> {{ campaign.end_date.strftime('%d/%m/%Y') }}</p>
+<p><strong>Budget:</strong> ₹{{ campaign.budget }}</p>
+
+<a href="{{ url_for('ad_request', id=campaign.id) }}" class="btn btn-dark">
+    <i class="fas fa-add"></i>
+    Generate Ad Request
+</a>
+
+<h3 class="mt-5">Private Ad Requests</h3>
+<div class="container">
+    <div class="row">
+        {% for ad_request in private_ad_requests %}
+        <div class="col-12 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <p><strong>ID</strong><br>{{ ad_request.id }}</p>
+                            <p><strong>Status</strong><br>{{ ad_request.status }}</p>
+                            <p><strong>Payment</strong><br>{{ ad_request.payment_amount }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p><strong>Message</strong></p>
+                            <p>{{ ad_request.messages }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p><strong>Requirements</strong></p>
+                            <p>{{ ad_request.requirements }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p><strong>Influencer Assigned</strong></p>
+                            <p>{{ ad_request.influencer.name if ad_request.influencer else 'Not Assigned' }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            {% if not ad_request.influencer %}
+                            <a href="{{ url_for('assign_influencer', id=ad_request.id) }}" class="btn btn-secondary btn-block mt-2">Assign Influencer</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<h3 class="mt-5">Public Ad Requests</h3>
+<div class="container">
+    <div class="row">
+        {% for ad_request in public_ad_requests %}
+        <div class="col-12 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <p><strong>ID</strong><br>{{ ad_request.id }}</p>
+                            <p><strong>Status</strong><br>{{ ad_request.status }}</p>
+                            <p><strong>Payment</strong><br>{{ ad_request.payment_amount }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p><strong>Message</strong></p>
+                            <p>{{ ad_request.messages }}</p>
+                        </div>
+                        <div class="col-md-3">
+                            <p><strong>Requirements</strong></p>
+                            <p>{{ ad_request.requirements }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            <p><strong>Influencer Assigned</strong></p>
+                            <p>{{ ad_request.influencer.name if ad_request.influencer else 'Not Assigned' }}</p>
+                        </div>
+                        <div class="col-md-2">
+                            {% if not ad_request.influencer %}
+                            <a href="{{ url_for('assign_influencer', id=ad_request.id) }}" class="btn btn-secondary btn-block mt-2">Assign Influencer</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
