@@ -17,7 +17,7 @@
             <div class="card m-2" style="min-width: 250px;">
                 <div class="card-body">
                     <h5 class="card-title">{{ campaign.name }}</h5>
-                    <p class="card-text">Sponsor: {{ sponsors.company_name }}</p>
+                    <p class="card-text">Sponsor: {{ sponsors[campaign.id].company_name }}</p>
                     <div class="progress mb-2">
                         {% set total_days = (campaign.end_date - campaign.start_date).days %}
                         {% set elapsed_days = (current_date - campaign.start_date).days %}
